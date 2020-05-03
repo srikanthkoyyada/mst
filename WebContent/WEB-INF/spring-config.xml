@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/mvc 
+  http://www.springframework.org/schema/mvc/spring-mvc.xsd
+  http://www.springframework.org/schema/context
+  http://www.springframework.org/schema/context/spring-context.xsd
+  http://www.springframework.org/schema/tx 
+  http://www.springframework.org/schema/tx/spring-tx.xsd
+           http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+
+	<!-- <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" 
+		destroy-method="close"> <property name="driverClassName" value="com.mysql.jdbc.Driver" 
+		/> <property name="url" value="jdbc:mysql://52.220.98.186:3306/msbdb" /> 
+		<property name="username" value="msbuser" /> <property name="password" value="" 
+		/> </bean> -->
+
+
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp2.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName"
+			value="com.mysql.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://208.109.14.135:3306/mst?characterEncoding=utf8"/>
+		<property name="username" value="admin" />
+		<property name="password" value="Talent99!" />
+	</bean>
+	
+	
+	<!-- <bean id="dataSource"
+		class="org.apache.commons.dbcp2.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName"
+			value="com.mysql.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/mst"/>
+		<property name="username" value="root" />
+		<property name="password" value="Talent99!" />
+		
+        <property name="useUnicode" value="yes" />
+        <property name="characterEncoding" value="utf8mb4" />
+		<property name="connectionProperties">
+		</property>
+
+	</bean> -->
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="annotatedClasses">
+			<list>
+				<value>com.msb.model.Other</value>
+				<value>com.msb.model.OthersProfileImage</value>
+				<value>com.msb.model.CollegeUser</value>
+				<value>com.msb.model.CollegeUserProfileImage</value>
+				<value>com.msb.model.SchoolUser</value>
+				<value>com.msb.model.SchoolUserProfileImage</value>
+				<value>com.msb.model.UserActivation</value>
+				<value>com.msb.model.Competition</value>
+				<value>com.msb.model.CompetitionCategory</value>
+				<value>com.msb.model.CompetitionText</value>
+				<value>com.msb.model.MSTCompetition</value>
+				<value>com.msb.model.UserSegment</value>
+				<value>com.msb.model.UserLikeValidation</value>
+				<value>com.msb.model.Quiz</value>
+				<value>com.msb.model.QuizGenre</value>
+				<value>com.msb.model.QuizPoints</value>
+				<value>com.msb.model.QuizScores</value>
+				<value>com.msb.model.StudentTestsCount</value>
+				<value>com.msb.model.UploadATalent</value>
+				<value>com.msb.model.BlogArticle</value>
+			</list>
+		</property>
+
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.connection.release_mode">after_transaction</prop>
+
+			</props>
+		</property>
+	</bean>
+
+	<tx:annotation-driven />
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<context:annotation-config />
+	<mvc:annotation-driven />
+	<context:component-scan
+		base-package="com.msb.controller" />
+	<context:component-scan
+		base-package="com.msb.validator" />
+	<context:component-scan
+		base-package="com.msb.exception" />
+	<context:component-scan
+		base-package="com.msb.dao" />
+	<context:component-scan
+		base-package="com.msb.service" />
+
+
+
+	<!-- <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
+		<property name="host" value="smtp.gmail.com" /> <property name="port" value="587" 
+		/> <property name="username" value="contact@mysuperbrain.com" /> <property 
+		name="password" value="Bojja9977" /> <property name="javaMailProperties"> 
+		<props> <prop key="mail.debug">true</prop> <prop key="mail.transport.protocol">smtp</prop> 
+		<prop key="mail.smtp.auth">true</prop> <prop key="mail.smtp.starttls.enable">true</prop> 
+		</props> </property> </bean> -->
+
+	<bean id="mailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="" />
+		<property name="port" value="25" />
+		<property name="username" value="contact@mysuperbrain.com" />
+		<property name="password" value="Bojja9977" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.debug">true</prop>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.localhost">localhost</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/jsp/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	<mvc:resources mapping="/assets/**" location="/assets/" />
+	<mvc:resources mapping="/img/**" location="/img/" />
+	<mvc:resources mapping="/js/**" location="/js/" />
+	<mvc:resources mapping="/resources/**"
+		location="/resources/" />
+	<mvc:resources mapping="/user_images/**"
+		location="/user_images/" />
+	<mvc:resources mapping="/magazine/**"
+		location="magazine/" />
+	<mvc:resources mapping="/games/**" location="games/" />
+	<mvc:resources mapping="/media/******" location="/media/" />
+
+	<mvc:interceptors>
+		
+
+		<mvc:interceptor>
+			<mvc:mapping path="/others/user/*" />
+			<mvc:mapping path="/others/user/*/*" />
+			<mvc:mapping path="/others/user/*/*/*" />
+			<bean class="com.msb.interceptor.OtherAuthenticationInterceptor"></bean>
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/college/user/*" />
+			<mvc:mapping path="/college/user/*/*" />
+			<mvc:mapping path="/college/user/*/*/*" />
+			<bean class="com.msb.interceptor.CollegeUserAuthenticationInterceptor"></bean>
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/school/user/*" />
+			<mvc:mapping path="/school/user/*/*" />
+			<mvc:mapping path="/school/user/*/*/*" />
+			<bean class="com.msb.interceptor.SchoolUserAuthenticationInterceptor"></bean>
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/srichaitanya/user/*" />
+			<mvc:mapping path="/srichaitanya/user/*/*" />
+			<mvc:mapping path="/srichaitanya/user/*/*/*" />
+			<bean class="com.msb.interceptor.SrichaitanyaUserAuthenticationInterceptor"></bean>
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/singer/user/*" />
+			<mvc:mapping path="/singer/user/*/*" />
+			<mvc:mapping path="/singer/user/*/*/*" />
+			<bean class="com.msb.interceptor.SingerUserAuthenticationInterceptor"></bean>
+		</mvc:interceptor>
+
+		<mvc:interceptor>
+			<mvc:mapping path="/user/*" />
+			<mvc:mapping path="/user/*/*" />
+			<mvc:mapping path="/user/*/*/*" />
+			<bean id="webContentInterceptor"
+				class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+				<property name="cacheSeconds" value="0" />
+				<property name="useExpiresHeader" value="true" />
+				<property name="useCacheControlHeader" value="true" />
+				<property name="useCacheControlNoStore" value="true" />
+			</bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/premiumuser/*" />
+			<bean
+				class="com.msb.interceptor.StudentPremiumAuthenticationInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages">
+		</property>
+	</bean>
+
+	<!-- <bean id="userDaoImpl" class="com.msb.dao.UserDAOImpl" /> <bean id="userServiceImpl" 
+		class="com.msb.service.UserServiceImpl" /> <bean id="mailDaoImpl" class="com.msb.dao.MailDAOImpl" 
+		/> <bean id="mailServiceImpl" class="com.msb.service.MailServiceImpl" /> 
+		<bean id="competitionDaoImpl" class="com.msb.dao.CompetitionDAOImpl" /> <bean 
+		id="competitionServiceImpl" class="com.msb.service.CompetitionServiceImpl" 
+		/> -->
+
+
+
+</beans>
